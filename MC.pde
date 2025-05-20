@@ -1,9 +1,9 @@
 int x,y,m,d,speed;
-int[] scale={2,2};
+int[] scale={1,1};
 String expression,action;
 void setup(){
   background(200);
-  size(400,600);
+  size(1000,600);
   x=width/2;
   y=height/2;
   expression="happy";
@@ -18,6 +18,11 @@ void draw(){
   background(200);
   MCSide(x,y,expression,action,scale,m);
   if(frameCount%speed==0){
+    x++;
+    if(x>=600){
+      action="standing";
+      x=600;
+    }
     if(d>0){
       m++;
     }
@@ -100,6 +105,7 @@ void MCSide(int x, int y,String expression, String action, int[] scale,int m){
   fill(237,215,175);
   circle(0,60,15);
   
+  rotate(radians(-m));
   fill(219,60,48);
   quad(-6,28, 6,28, 15, 78, -15,78);
   //head
@@ -146,7 +152,7 @@ void MCSide(int x, int y,String expression, String action, int[] scale,int m){
   stroke(0);
   fill(97,71,25);
   arc(0,17,70,100, 1.8, TWO_PI-QUARTER_PI,PIE);
-  rotate(radians(-2*m));
+  rotate(radians(-m));
   fill(237,215,175);
   circle(0,60,15);
   //feet
