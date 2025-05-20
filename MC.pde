@@ -1,28 +1,31 @@
 int x,y,m,d,speed;
 int[] scale={1,1};
+PVector pos, dir;
 String expression,action;
 void setup(){
   background(200);
   size(1000,600);
   x=width/2;
   y=height/2;
+  pos=new PVector(x,y);
+  dir=new PVector(1,0);
   expression="happy";
   action="walking";
   m=20;
   d=-1;
   speed=1;
-  MCSide(x,y,expression,action,scale,m);
+  MCSide(pos,expression,action,scale,m);
 }
 
 void draw(){
   background(200);
-  MCSide(x,y,expression,action,scale,m);
+  if(keyPressed==false){
+    dir=new PVector(0,0);
+    action="standing";
+  }
+  MCSide(pos,expression,action,scale,m);
   if(frameCount%speed==0){
-    x++;
-    if(x>=600){
-      action="standing";
-      x=600;
-    }
+    pos.add(dir);
     if(d>0){
       m++;
     }
@@ -37,9 +40,9 @@ void draw(){
 }
 
 
-void MCSide(int x, int y,String expression, String action, int[] scale,int m){
+void MCSide(PVector pos,String expression, String action, int[] scale,int m){
   pushMatrix();
-  translate(x,y);
+  translate(pos.x,pos.y);
   scale(scale[0],scale[1]);
   //body
   
@@ -237,7 +240,20 @@ void MCFront(int x, int y,String expression, String action, int[] scale){
 
 
 
-
+void keyPressed(){
+  if(key==CODED){
+    if(keyCode==LEFT){
+      action="walking";
+      dir = new PVector(-2,0);
+      scale[0]=-1;
+    }
+    if(keyCode==RIGHT){
+      action="walking";
+      dir= new PVector(2,0);
+      scale[0]=1;
+    }
+  }
+}
 
 
 void mouseClicked(){
