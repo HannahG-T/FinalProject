@@ -11,10 +11,11 @@ class Text{
     textFont(font);
   }
   
-  public void drawString(String text,PVector newPos, PVector person){
+  public void drawString(String text,PVector newPos, Character person){
     textAlign((int)newPos.x,(int)newPos.y);
     pos=newPos;
-    end=person;triangle(pos.x-10+textWidth(text)/2, pos.y, pos.x+10+textWidth(text)/2, pos.y, end.x, end.y);
+    end=person.pos();
+    triangle(pos.x-10+textWidth(text)/2, pos.y, pos.x+10+textWidth(text)/2, pos.y, end.x+30*person.getScale()[0], end.y-5);
     ellipse(pos.x+textWidth(text)/2,pos.y-8,textWidth(text)+20,40*textWidth(text)/80);
     fill(0);
     text(text, pos.x, pos.y);
