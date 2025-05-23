@@ -2,6 +2,7 @@ int speed, x, y;
 int[] scale = {1, 1};
 String level;
 Character mc;
+GradeBook grades;
 Text text;
 
 void setup() {
@@ -11,13 +12,14 @@ void setup() {
   speed = 1;
   x = width / 2;
   y = height / 2;
-  mc = new Character(new PVector(x, y), scale, "happy", "walking", "teacher", "teacher");
+  mc = new Character(new PVector(x, y), scale, "happy", "walking", "mc", "mc");
+  grades=new GradeBook();
   text=new Text();
 }
 
 void draw() {
   background(200);
-  text.drawString("hello, welcome to clas",new PVector(300,100),new PVector(502,340));
+  text.drawString("hello, welcome to clas",new PVector(300,100),mc);
   if (level.equals("start")) {
   }
   if (level.equals("halway")) {
@@ -29,6 +31,11 @@ void draw() {
     if (frameCount % speed == 0) {
       mc.animate();
     }
+  }
+  
+  grades.drawIcon();
+  if(level.equals("gradebook")){
+    grades.draw();
   }
 }
 
@@ -50,6 +57,9 @@ void keyPressed() {
 }
 
 void mouseClicked() {
+  if(mouseX>20 && mouseY>20 && mouseX<60 && mouseY<75){
+    level="gradebook";
+  }
   int a = x - mouseX;
   int b = y - mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
