@@ -22,6 +22,14 @@ class Character {
       bodyColor = color(219, 60, 48);
     }
   }
+  
+  public PVector pos(){
+    return pos;
+  }
+  
+  public int[] getScale(){
+    return scale;
+  }
 
   public void setAction(String newAction) {
     action = newAction;
@@ -214,4 +222,7 @@ class Character {
 
     popMatrix();
   }
+  
+  
+  
 }
