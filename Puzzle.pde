@@ -1,0 +1,54 @@
+class Puzzle{
+  PImage img;
+  ArrayList<Piece> pieces;
+  ArrayList<PVector> answer;
+  int w, h;
+  int size;
+  
+  public Puzzle(){
+    img=loadImage("puzzle.jpg");
+    w=4;
+    h=5;
+    size=100;
+    pieces=new ArrayList<Piece>();
+    for(int x=0;x<w;x++){
+      for(int y=0;y<h;y++){
+        PVector correctPos=new PVector(300+(x*size), 50+(y*size));
+        pieces.add(new Piece(img, new PVector((int)random(width-size), (int)random(height-size)), correctPos, size, x*img.width/w, y*img.height/h, new PVector((x)*img.width/w+img.width/w, (y)*img.height/h+img.height/h)));
+      }
+    }
+    
+  }
+  //
+  public void draw(){
+    rect(300,50, 400,500);
+    for(Piece piece: pieces){
+      piece.draw();
+    }
+  }
+  
+  public Piece getPieceAt(float x, float y) {
+    for (int i = pieces.size() - 1; i >= 0; i--) {
+      Piece p = pieces.get(i);
+      if (p.contains(x, y)) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  void trySnap(Piece p, float snapThreshold) {
+    if (p.isCloseToCorrect(snapThreshold)) {
+      p.snapToCorrect();
+    }
+  }
+
+  boolean isComplete() {
+    for (Piece p : pieces) {
+      if (!p.isInCorrectPlace()) return false;
+    }
+    return true;
+  }
+  
+  
+}

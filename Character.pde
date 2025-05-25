@@ -30,6 +30,7 @@ class Character {
   public int[] getScale(){
     return scale;
   }
+  
 
   public void setAction(String newAction) {
     action = newAction;
