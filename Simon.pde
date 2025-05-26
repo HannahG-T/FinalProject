@@ -8,6 +8,7 @@ class Simon{
   String cur;
   int curOrder;
   int grade=100;
+  int selected;
 
   public Simon(){
     size=100;
@@ -31,7 +32,7 @@ class Simon{
     curOrder=0;
   }
 
-  public void play(){
+  public void draw(){
     if(cur.equals("order")){
       for(int i=0;i<4;i++){
         if(i==order.get(curOrder)){
@@ -41,9 +42,28 @@ class Simon{
           image(selected[i],pos[i].x, pos[i].y, size, size);
         }
       }
+      curOrder++;
+      if(curOrder>order.size()){
+        cur="answer";
+      }
+    }
+    else{
+       for(int i=0;i<4;i++){
+         if(i==selected){
+           image(selected[i],pos[i].x, pos[i].y, size, size);
+         }
+         else{
+           image(selected[i],pos[i].x, pos[i].y, size, size);
+         }
+      }
     }
 
   }
+
+public void select(int num){
+  selected=num;
+  answers.add(num);
+}
   
 
 }
