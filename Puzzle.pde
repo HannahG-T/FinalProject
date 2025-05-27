@@ -7,8 +7,8 @@ class Puzzle{
   
   public Puzzle(){
     img=loadImage("puzzle.jpg");
-    w=4;
-    h=5;
+    w=2;
+    h=2;
     size=100;
     pieces=new ArrayList<Piece>();
     for(int x=0;x<w;x++){
@@ -48,6 +48,16 @@ class Puzzle{
       if (!p.isInCorrectPlace()) return false;
     }
     return true;
+  }
+  
+  public void grade(){
+    pushMatrix();
+    translate(width/2, height/2);
+    fill(255);
+    quad(-300,-200, 300,-200, 300,200, -300,200);
+    Text text=new Text(60);
+    text.draw("CONGRATS", new PVector(-100, -100));
+    popMatrix();
   }
   
   

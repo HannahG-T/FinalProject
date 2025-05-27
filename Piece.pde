@@ -46,4 +46,5 @@ class Piece{
     return pos.equals(correctPos);
   }
   
+  
 }

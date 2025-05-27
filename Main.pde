@@ -27,7 +27,6 @@ void setup() {
 void draw() {
   background(200);
   puzzle.draw();
-  grades.addGrade("ELA", 95);
   if (level.equals("start")) {
   }
   if (level.equals("halway")) {
@@ -44,6 +43,7 @@ void draw() {
   if(puzzle.isComplete()){
     grades.addGrade("ELA", 95);
     grades.draw();
+    puzzle.grade();
   }
   
   grades.drawIcon();
