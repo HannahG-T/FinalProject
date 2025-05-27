@@ -5,28 +5,27 @@ String pause;
 Character mc;
 GradeBook grades;
 Text text;
-PImage img;
 Puzzle puzzle;
+Simon simon;
 
 Piece selected=null;
 PVector offset;
 void setup() {
   size(1000, 600);
   background(200);
-  level = "";
+  level = "simon";
   speed = 1;
   x = width / 2;
   y = height / 2;
   mc = new Character(new PVector(x, y), scale, "happy", "walking", "mc", "mc");
   grades=new GradeBook();
   text=new Text();
-  img=loadImage("puzzle.jpg");
   puzzle=new Puzzle();
+  simon=new Simon();
 }
 
 void draw() {
   background(200);
-  puzzle.draw();
   if (level.equals("start")) {
   }
   if (level.equals("halway")) {
@@ -39,16 +38,22 @@ void draw() {
       mc.animate();
     }
   }
-  
-  if(puzzle.isComplete()){
-    grades.addGrade("ELA", 95);
-    grades.draw();
-    puzzle.grade();
+  if(level.equals("puzzle")){
+    puzzle.draw();
+    if(puzzle.isComplete()){
+      grades.addGrade("ELA", 95);
+      grades.draw();
+      puzzle.grade();
+    }
   }
   
   grades.drawIcon();
   if(level.equals("gradebook")){
     grades.draw();
+  }
+  
+  if(level.equals("simon")){
+    simon.draw();
   }
 }
 
@@ -78,6 +83,14 @@ void mouseClicked() {
     level=pause;
     print(level);
   }
+  if(level.equals("puzzle") && mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+    level="halway";
+  }
+  
+  if(level.equals("simon")){
+    simon.select(new PVector(mouseX, mouseY));
+  }
+  
   int a =x- mouseX;
   int b =y-mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
@@ -85,21 +98,27 @@ void mouseClicked() {
 
 
 void mousePressed() {
-  selected = puzzle.getPieceAt(mouseX, mouseY);
-  if (selected != null) {
-    offset = PVector.sub(selected.pos, new PVector(mouseX, mouseY));
+  if(level.equals("puzzle")){
+    selected = puzzle.getPieceAt(mouseX, mouseY);
+    if (selected != null) {
+      offset = PVector.sub(selected.pos, new PVector(mouseX, mouseY));
+    }
   }
 }
 
 void mouseDragged() {
-  if (selected != null) {
-    selected.setPos(new PVector(mouseX, mouseY).add(offset));
+  if(level.equals("puzzle")){
+    if (selected != null) {
+      selected.setPos(new PVector(mouseX, mouseY).add(offset));
+    }
   }
 }
 
 void mouseReleased() {
-  if (selected != null) {
-    puzzle.trySnap(selected, 50);
-    selected = null;
+  if(level.equals("puzzle")){
+    if (selected != null) {
+      puzzle.trySnap(selected, 50);
+      selected = null;
+    }
   }
 }

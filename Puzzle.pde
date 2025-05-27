@@ -6,9 +6,9 @@ class Puzzle{
   int size;
   
   public Puzzle(){
-    img=loadImage("puzzle.jpg");
-    w=2;
-    h=2;
+    img=loadImage("images/puzzle.jpg");
+    w=1;
+    h=1;
     size=100;
     pieces=new ArrayList<Piece>();
     for(int x=0;x<w;x++){
@@ -56,7 +56,12 @@ class Puzzle{
     fill(255);
     quad(-300,-200, 300,-200, 300,200, -300,200);
     Text text=new Text(60);
-    text.draw("CONGRATS", new PVector(-100, -100));
+    text.draw("CONGRATS", new PVector(-180, -100));
+    text.draw("A        95", new PVector(-150,0));
+    fill(255);
+    rect(-200,100,400,50);
+    Text smaller=new Text(40);
+    smaller.draw("continue",new PVector(-80,140));
     popMatrix();
   }
   
