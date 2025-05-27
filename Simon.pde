@@ -64,17 +64,21 @@ class Simon {
         select = -1;
       }
     }
+    if(completed){
+      showGrade();
+    }
 
-    if (showGradeScreen) {
+    else if (showGradeScreen) {
       if (millis() - gradeScreenTime > gradeDisplayDuration) {
         showGradeScreen = false;
+        reset();
       } else {
         showGrade();
       }
     }
   }
 
-  void handleClick(PVector clicked) {
+  void select(PVector clicked) {
     if (flashing || completed || showGradeScreen) return;
 
     for (int i = 0; i < 4; i++) {
@@ -96,10 +100,8 @@ class Simon {
       completed = true;
       showGradeScreen = true;
       gradeScreenTime = millis();
-    } else if (answers.size() == order.size()) {
+    } else if (answers.size() == order.size() && answers.get(index) != order.get(index)) {
       completed = true;
-      showGradeScreen = true;
-      gradeScreenTime = millis();
     }
     select = -1;
   }
@@ -127,5 +129,23 @@ class Simon {
 
   boolean isCompleted() {
     return completed;
+  }
+  
+  void reset(){
+    order = new ArrayList<Integer>();
+    answers = new ArrayList<Integer>();
+    for (int i = 0; i < 4; i++) {
+      order.add((int)random(4));
+    }
+
+    flashStartTime = millis();
+    flashIndex = 0;
+    flashing = true;
+
+    select = -1;
+    completed = false;
+    showGradeScreen = false;
+    gradeScreenTime = millis();
+    gradeDisplayDuration = 2000;
   }
 }
