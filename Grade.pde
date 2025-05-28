@@ -9,8 +9,20 @@ class Grade{
     calcLetter();
   }
   
+  public void minus(int num){
+    numGrade-=num;
+  }
+  
+  public void add(int num){
+    numGrade+=num;
+  }
+  
   public String toString(){
     return subject+":"+letterGrade;
+  }
+  
+  public String string(){
+    return letterGrade+"         "+numGrade;
   }
   
   public int num(){

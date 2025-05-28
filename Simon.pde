@@ -13,7 +13,7 @@ class Simon {
   boolean flashing = true;
 
   int select = -1;
-  int grade = 100;
+  Grade grade = new Grade("science", 100);
   boolean completed = false;
   boolean showGradeScreen = false;
   int gradeScreenTime = 0;
@@ -95,13 +95,14 @@ class Simon {
 
   void checkAnswer() {
     int index = answers.size() - 1;
+    if(answers.size()==order.size()){
+      completed=true;
+    }
     if (answers.get(index) != order.get(index)) {
-      grade -= 10;
-      completed = true;
+      grade.minus(10);
+      completed=false;
       showGradeScreen = true;
       gradeScreenTime = millis();
-    } else if (answers.size() == order.size() && answers.get(index) != order.get(index)) {
-      completed = true;
     }
     select = -1;
   }
@@ -109,21 +110,29 @@ class Simon {
   void showGrade() {
     pushMatrix();
     translate(width / 2, height / 2);
-    rectMode(CENTER);
-    if (grade < 0) {
-      fill(0);
-      rect(0, 0, 600, 400);
-    } else if (grade > 65 && answers.size() < order.size()) {
+    rectMode(CENTER); 
+    if(isCompleted()){
+      fill(255);
+      quad(-300,-200, 300,-200, 300,200, -300,200);
+      Text text=new Text(60);
+      if(grade.num()>65){
+        text.draw("CONGRATS", new PVector(-180, -100));
+        text.draw(grade.string(), new PVector(-150,0));
+      }
+      fill(255);
+      rect(0,130,400,50);
+      Text smaller=new Text(40);
+      smaller.draw("continue",new PVector(-80,140));
+    }
+    else{
       fill(255, 0, 0);
       rect(0, 0, 600, 400);
-    } else {
-      fill(100);
-      rect(0, 0, 600, 400);
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(32);
+      text("Grade: " + grade, 0, 0);
     }
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    text("Grade: " + grade, 0, 0);
+    rectMode(CORNER);
     popMatrix();
   }
 
@@ -147,5 +156,9 @@ class Simon {
     showGradeScreen = false;
     gradeScreenTime = millis();
     gradeDisplayDuration = 2000;
+  }
+  
+  Grade getGrade(){
+    return grade;
   }
 }

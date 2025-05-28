@@ -47,14 +47,19 @@ void draw() {
     }
   }
   
-  grades.drawIcon();
   if(level.equals("gradebook")){
     grades.draw();
   }
   
   if(level.equals("simon")){
     simon.draw();
+    if(simon.isCompleted()){
+      grades.addGrade(simon.getGrade());
+    }
   }
+  
+  translate(0,0);
+  grades.drawIcon();
 }
 
 void keyPressed() {
@@ -83,12 +88,15 @@ void mouseClicked() {
     level=pause;
     print(level);
   }
-  if(level.equals("puzzle") && mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+  if(level.equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
     level="halway";
   }
   
   if(level.equals("simon")){
     simon.select(new PVector(mouseX, mouseY));
+    if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+      level="halway";
+    }
   }
   
   int a =x- mouseX;

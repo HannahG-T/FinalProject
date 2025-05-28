@@ -14,6 +14,15 @@ class GradeBook{
     }
   }
   
+  public void addGrade(Grade grade){
+    if(gradebook.size()>0 && !(gradebook.get(gradebook.size()-1).subj().equals(grade.subj()))){
+      gradebook.add(grade);
+    }
+    if(gradebook.size()<=0){
+      gradebook.add(grade);
+    }
+  }
+  
   public void draw(){
     pushMatrix();
     translate(width/2, height/2);
@@ -40,9 +49,12 @@ class GradeBook{
     text.draw("Math", new PVector(-230,-30));
     text.draw("Sciece", new PVector(-230,45));
     text.draw("History", new PVector(-230,120));
-    for(int i=0;i<4;i++){
-      if(i<gradebook.size()){
-        text.draw(gradebook.get(i).calcLetter()+"      "+gradebook.get(i).num(), new PVector(-30,-105+i*75));
+    String[] order={"ELA", "Math", "Science", "History"};
+    for(int i=0;i<gradebook.size();i++){
+      for(int j=0;j<4;j++){
+        if(gradebook.get(i).subj().equals(order[j])){
+          text.draw(gradebook.get(i).calcLetter()+"      "+gradebook.get(i).num(), new PVector(-30,-105+i*75));
+        }
       }
       else{
         text.draw("-----",new PVector(-30,-105+i*75));
@@ -53,10 +65,13 @@ class GradeBook{
   }
   
   public void drawIcon(){
+    pushMatrix();
+    translate(0,0);
     fill(225);
     rect(20,20,40,55);
     line(25,20, 25,75);
     rect(30,25,25,15);
+    popMatrix();
   }
   
 }
