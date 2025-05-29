@@ -40,23 +40,19 @@ class GradeBook{
     line(-250,75,250,75);
     Text text=new Text();
     text.draw("ELA", new PVector(-230,-105));
-    if(gradebook.size()>0){
-      text.draw(gradebook.get(0).calcLetter()+"      "+gradebook.get(0).num(), new PVector(-30,-105));
-    }
-    else{
-      text.draw("-----",new PVector(-30,-105));
-    }
     text.draw("Math", new PVector(-230,-30));
     text.draw("Sciece", new PVector(-230,45));
     text.draw("History", new PVector(-230,120));
     String[] order={"ELA", "Math", "Science", "History"};
-    for(int i=0;i<gradebook.size();i++){
-      for(int j=0;j<4;j++){
-        if(gradebook.get(i).subj().equals(order[j])){
-          text.draw(gradebook.get(i).calcLetter()+"      "+gradebook.get(i).num(), new PVector(-30,-105+i*75));
+    for(int i=0;i<4;i++){
+      boolean written=false;
+      for(int j=0;j<gradebook.size();j++){
+        if(gradebook.get(j).subj().equals(order[i])){
+          text.draw(gradebook.get(j).calcLetter()+"      "+gradebook.get(j).num(), new PVector(-30,-105+i*75));
+          written=true;
         }
       }
-      else{
+      if(!written){
         text.draw("-----",new PVector(-30,-105+i*75));
       }
     }

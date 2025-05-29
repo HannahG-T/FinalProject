@@ -13,7 +13,7 @@ class Simon {
   boolean flashing = true;
 
   int select = -1;
-  Grade grade = new Grade("science", 100);
+  Grade grade = new Grade("Science", 100);
   boolean completed = false;
   boolean showGradeScreen = false;
   int gradeScreenTime = 0;
@@ -119,6 +119,10 @@ class Simon {
         text.draw("CONGRATS", new PVector(-180, -100));
         text.draw(grade.string(), new PVector(-150,0));
       }
+      else{
+        text.draw(":(", new PVector(-50, -100));
+        text.draw(grade.string(), new PVector(-150,0));
+      }
       fill(255);
       rect(0,130,400,50);
       Text smaller=new Text(40);
@@ -130,7 +134,7 @@ class Simon {
       fill(255);
       textAlign(CENTER, CENTER);
       textSize(32);
-      text("Grade: " + grade, 0, 0);
+      text("Grade: " + grade.num(), 0, 0);
     }
     rectMode(CORNER);
     popMatrix();

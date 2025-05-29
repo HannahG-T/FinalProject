@@ -11,10 +11,12 @@ class Grade{
   
   public void minus(int num){
     numGrade-=num;
+    calcLetter();
   }
   
   public void add(int num){
     numGrade+=num;
+    calcLetter();
   }
   
   public String toString(){
