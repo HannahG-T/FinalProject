@@ -1,4 +1,4 @@
-int speed, x, y;
+int speed, x, y, r, c;
 int[] scale = {1, 1};
 String[] levels={"start", "hallway", "bookStack", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
@@ -26,6 +26,8 @@ void setup() {
   speed = 1;
   x = width / 2;
   y = height / 2;
+  r=0;
+  c=0;
   mc = new Character(new PVector(x, y+100), scale, "happy", "walking", "mc", "mc");
   for(int i=0;i<teachers.length;i++){
     int[] temp={-1,1};
@@ -63,9 +65,10 @@ void draw() {
     level++;
     mc.setPos(newPvector(10, y+100));
   }
-
-  if(!spoke && mc.pos().x>450){
-    text.dialogue();
+  
+  if(!levels[level].equals("hallway") && !spoke && mc.pos().x>450){
+    text.dialogue(r,c);
+    c++;
     if(text.cur()==0){
       spoke=false;
       inGame=true;
