@@ -26,6 +26,10 @@ class Character {
   public PVector pos(){
     return pos;
   }
+
+  public void setPos(PVector new){
+    pos=new;
+  }
   
   public int[] getScale(){
     return scale;
