@@ -3,6 +3,7 @@ int[] scale = {1, 1};
 String[] levels={"start", "hallway", "bookStack", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
 boolean inGame=false;
+boolean spoke=false;
 PImage[] backgrounds=new PImage[10];
 String pause;
 Character mc;
@@ -54,14 +55,24 @@ void setup() {
 
 void draw() {
   background(200);
-  if(mc.pos() <= 0){
+  if(mc.pos().x <= 0){
     level--;
     mc.setPos(newPVector(width-10, y+100));
   }
-  if(mc.pos()>=width){
+  if(mc.pos().x>=width){
     level++;
     mc.setPos(newPvector(10, y+100));
   }
+
+  if(!spoke && mc.pos().x>450){
+    text.dialogue();
+    if(text.cur()==0){
+      spoke=false;
+      inGame=true;
+    }
+    delay(5000);
+  }
+
   image(backgrounds[level], width, height);
   if (levels[level].equals("start")) {
   }
