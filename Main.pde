@@ -2,6 +2,7 @@ int speed, x, y;
 int[] scale = {1, 1};
 String[] levels={"start", "hallway", "bookStack", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
+boolean inGame=false;
 PImage[] backgrounds=new PImage[10];
 String pause;
 Character mc;
@@ -35,7 +36,7 @@ void setup() {
       name+=(i+1)/2;
     }
     if(levels[i].equals("end")){
-      name+=".webp";
+      name+=".jpeg";
     }
     else if(levels[i].equals("start")){
       name+=".jpg";
@@ -53,11 +54,18 @@ void setup() {
 
 void draw() {
   background(200);
+  if(mc.pos() <= 0){
+    level--;
+    mc.setPos(newPVector(width-10, y+100));
+  }
+  if(mc.pos()>=width){
+    level++;
+    mc.setPos(newPvector(10, y+100));
+  }
   image(backgrounds[level], width, height);
   if (levels[level].equals("start")) {
   }
-  if (levels[level].equals("hallway")) {
-    
+  if (!inGame) {
     if (keyPressed == false) {
       mc.setAction("standing");
       mc.setDir(new PVector(0, 0));
@@ -66,8 +74,9 @@ void draw() {
     if (frameCount % speed == 0) {
       mc.animate();
     }
+    teachers[(level-1)/2].side();
   }
-  if(levels[level].equals("puzzle")){
+  if(levels[level].equals("puzzle")&&inGame){
     puzzle.draw();
     if(puzzle.isComplete()){
       grades.addGrade("ELA", 95);
@@ -80,7 +89,7 @@ void draw() {
     grades.draw();
   }
   
-  if(levels[level].equals("simon")){
+  if(levels[level].equals("simon")&& inGame){
     simon.draw();
     if(simon.isCompleted()){
       grades.addGrade(simon.getGrade());
@@ -93,17 +102,19 @@ void draw() {
 
 void keyPressed() {
   if (key == CODED) {
-    if (keyCode == LEFT) {
-      mc.setAction("walking");
-      mc.setDir(new PVector(-2, 0));
-      scale[0] = -1;
-      mc.setScale(scale);
-    }
-    if (keyCode == RIGHT) {
-      mc.setAction("walking");
-      mc.setDir(new PVector(2, 0));
-      scale[0] = 1;
-      mc.setScale(scale);
+    if(!inGame){
+      if (keyCode == LEFT) {
+        mc.setAction("walking");
+        mc.setDir(new PVector(-2, 0));
+        scale[0] = -1;
+        mc.setScale(scale);
+      }
+      if (keyCode == RIGHT) {
+        mc.setAction("walking");
+        mc.setDir(new PVector(2, 0));
+        scale[0] = 1;
+        mc.setScale(scale);
+      }
     }
   }
 }
@@ -113,17 +124,17 @@ void mouseClicked() {
     pause=levels[level];
     levels[level]="gradebook";
   }
-  if(levels[level].equals("gradebook")&&mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){
+  if(levels[level].equals("gradebook")&&mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){ 
     levels[level]=pause;
   }
-  if(levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
-    level++;
+  if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+    inGame=false;
   }
   
-  if(levels[level].equals("simon")){
+  if(levels[level].equals("simon") && inGame){
     simon.select(new PVector(mouseX, mouseY));
     if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
-      level++;
+      inGame=false;
     }
   }
   
@@ -134,7 +145,7 @@ void mouseClicked() {
 
 
 void mousePressed() {
-  if(levels[level].equals("puzzle")){
+  if(inGame && levels[level].equals("puzzle")){
     selected = puzzle.getPieceAt(mouseX, mouseY);
     if (selected != null) {
       offset = PVector.sub(selected.pos, new PVector(mouseX, mouseY));
@@ -143,7 +154,7 @@ void mousePressed() {
 }
 
 void mouseDragged() {
-  if(levels[level].equals("puzzle")){
+  if(inGame && levels[level].equals("puzzle")){
     if (selected != null) {
       selected.setPos(new PVector(mouseX, mouseY).add(offset));
     }
@@ -151,7 +162,7 @@ void mouseDragged() {
 }
 
 void mouseReleased() {
-  if(levels[level].equals("puzzle")){
+  if(inGame && levels[level].equals("puzzle")){
     if (selected != null) {
       puzzle.trySnap(selected, 50);
       selected = null;
