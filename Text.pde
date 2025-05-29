@@ -45,15 +45,12 @@ class Text{
     text(text,newPos.x,newPos.y);
   }
   
-  public void dialogue(){
+  public void dialogue(int r, int c){
     rect(200,100,600,200);
     fill(0);
-    text(dialogue[room][cur],250,150,500,100);
-    cur++;
-    if(cur>=dialogue[room].length){
-      room++;
-      cur=0;
-    }
+    text(dialogue[r][c],250,150,500,100);
+    room=r;
+    cur=c;
   }
 
   public int cur(){
