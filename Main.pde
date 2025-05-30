@@ -23,16 +23,16 @@ Simon simon;
 void setup() {
   size(1000, 600);
   background(200);
-  levels[level] = "start";
+  level=5;
   speed = 1;
   x = width / 2;
-  y = height / 2;
+  y = 150+height / 2;
   r=0;
   c=0;
-  mc = new Character(new PVector(x, y+150), scale, "happy", "walking", "mc", "mc");
+  mc = new Character(new PVector(x, y), scale, "happy", "walking", "mc", "mc");
   for(int i=0;i<teachers.length;i++){
     int[] temp={-1,1};
-    teachers[i]=new Character(new PVector(700,450), temp, "happy", "standing", "teacher", "teacher");
+    teachers[i]=new Character(new PVector(700,y), temp, "happy", "standing", "teacher", "teacher");
   }
   for(int i=0;i<backgrounds.length;i++){
     String name="images/"+levels[i];
@@ -62,11 +62,12 @@ void draw() {
   
   if(mc.pos().x <= 0){
     level--;
-    mc.setPos(new PVector(width-10, y+100));
+    mc.setPos(new PVector(width-10, y));
   }
   if(mc.pos().x>=width){
     level++;
-    mc.setPos(new PVector(10, y+100));
+    mc.setPos(new PVector(10, y));
+    spoke=false;
   }
   if((!levels[level].equals("hallway") || level==1)&&level!=9){
     r=level;
@@ -77,17 +78,7 @@ void draw() {
     }
   }
   
-  if(!levels[level].equals("hallway")&&!spoke && mc.pos().x>450){
-    if(c>=text.maxCur(r)&&spoke){
-      spoke=false;
-      c=0;
-      if(!played){
-        inGame=true;
-      }
-      if(levels[level].equals("start")&&spoke){
-        level++;
-      }
-    }
+  if((!levels[level].equals("hallway") || level==1)&&!spoke && mc.pos().x>450){
     text.dialogue(r,c);
   }
 
@@ -134,15 +125,16 @@ void keyPressed() {
   if(key== ENTER){
       c++;
       if(c>=text.maxCur(r)){
-      spoke=false;
-      c=0;
-      if(!played&&level>1){
-        inGame=true;
+        spoke=true;
+        c=0;
+        if(!played&&level>1){
+          inGame=true;
+        }
+        if(levels[level].equals("start")){
+          level++;
+          spoke=false;
+        }
       }
-      if(levels[level].equals("start")){
-        level++;
-      }
-    }
     }
   if (key == CODED) {
     if(!inGame){
@@ -173,6 +165,7 @@ void mouseClicked() {
   if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
     inGame=false;
     played=true;
+    c=0;
   }
   
   if(levels[level].equals("simon") && inGame){
@@ -180,6 +173,7 @@ void mouseClicked() {
     if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
       inGame=false;
       played=true;
+      c=0;
     }
   }
   
