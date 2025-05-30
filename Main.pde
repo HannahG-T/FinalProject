@@ -7,6 +7,7 @@ boolean played=false;
 boolean spoke=false;
 PImage[] backgrounds=new PImage[10];
 String pause;
+
 Character mc;
 Character[] teachers=new Character[4];
 GradeBook grades;
@@ -29,11 +30,14 @@ void setup() {
   y = 150+height / 2;
   r=0;
   c=0;
+  //create MC character
   mc = new Character(new PVector(x, y), scale, "happy", "walking", "mc", "mc");
+  //create teachers
   for(int i=0;i<teachers.length;i++){
     int[] temp={-1,1};
     teachers[i]=new Character(new PVector(700,y), temp, "happy", "standing", "teacher", "teacher");
   }
+  //load background images
   for(int i=0;i<backgrounds.length;i++){
     String name="images/"+levels[i];
     if(levels[i].equals("hallway")){
@@ -50,6 +54,7 @@ void setup() {
     }
     backgrounds[i]=loadImage(name);
   }
+  //initialize games and classes
   grades=new GradeBook();
   text=new Text();
   puzzle=new Puzzle();
@@ -57,9 +62,10 @@ void setup() {
 }
 
 void draw() {
-  background(200);
+  //background images
   image(backgrounds[level], 0,0,width, height);
   
+  //move to next room
   if(mc.pos().x <= 0){
     level--;
     mc.setPos(new PVector(width-10, y));
@@ -68,7 +74,10 @@ void draw() {
     level++;
     mc.setPos(new PVector(10, y));
     spoke=false;
+    played=false;
   }
+  
+  //dialogue
   if((!levels[level].equals("hallway") || level==1)&&level!=9){
     r=level;
   }
@@ -82,8 +91,7 @@ void draw() {
     text.dialogue(r,c);
   }
 
-  if (levels[level].equals("start")) {
-  }
+  //mc animation and teachers
   if (!inGame&& level!=0 && level!=9) {
     if (keyPressed == false) {
       mc.setAction("standing");
@@ -97,6 +105,16 @@ void draw() {
       teachers[(level-1)/2].side();
     }
   }
+  
+  //simon game
+  if(levels[level].equals("simon")&& inGame){
+    simon.draw();
+    if(simon.isCompleted()){
+      grades.addGrade(simon.getGrade());
+    }
+  }
+  
+  //puzzle game
   if(levels[level].equals("puzzle")&&inGame){
     puzzle.draw();
     if(puzzle.isComplete()){
@@ -106,22 +124,15 @@ void draw() {
     }
   }
   
+  //draw grade menu
   if(levels[level].equals("gradebook")){
     grades.draw();
   }
-  
-  if(levels[level].equals("simon")&& inGame){
-    simon.draw();
-    if(simon.isCompleted()){
-      grades.addGrade(simon.getGrade());
-    }
-  }
-  
-  translate(0,0);
   grades.drawIcon();
 }
 
 void keyPressed() {
+  //forward dialogue
   if(key== ENTER){
       c++;
       if(c>=text.maxCur(r)){
@@ -137,6 +148,8 @@ void keyPressed() {
       }
     }
   if (key == CODED) {
+    
+    //walk back and forth
     if(!inGame){
       if (keyCode == LEFT) {
         mc.setAction("walking");
@@ -155,19 +168,18 @@ void keyPressed() {
 }
 
 void mouseClicked() {
+  //pause and open gradebook menu
   if(mouseX>20 && mouseY>20 && mouseX<60 && mouseY<75){
     pause=levels[level];
     levels[level]="gradebook";
   }
+  //close grade menu
   if(levels[level].equals("gradebook")&&mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){ 
     levels[level]=pause;
   }
-  if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
-    inGame=false;
-    played=true;
-    c=0;
-  }
   
+  
+  //end/play simon
   if(levels[level].equals("simon") && inGame){
     simon.select(new PVector(mouseX, mouseY));
     if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
@@ -177,6 +189,14 @@ void mouseClicked() {
     }
   }
   
+  //end puzzle
+  if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+    inGame=false;
+    played=true;
+    c=0;
+  }
+  
+  
   int a =x- mouseX;
   int b =y-mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
@@ -185,6 +205,7 @@ void mouseClicked() {
 
 
 void mousePressed() {
+  //puzzle game
   if(inGame && levels[level].equals("puzzle")){
     selected = puzzle.getPieceAt(mouseX, mouseY);
     if (selected != null) {
@@ -194,6 +215,7 @@ void mousePressed() {
 }
 
 void mouseDragged() {
+  //puzzle game
   if(inGame && levels[level].equals("puzzle")){
     if (selected != null) {
       selected.setPos(new PVector(mouseX, mouseY).add(offset));
@@ -202,6 +224,7 @@ void mouseDragged() {
 }
 
 void mouseReleased() {
+  //puzzle game
   if(inGame && levels[level].equals("puzzle")){
     if (selected != null) {
       puzzle.trySnap(selected, 50);
