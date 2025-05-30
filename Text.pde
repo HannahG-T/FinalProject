@@ -60,6 +60,9 @@ class Text{
   public int room(){
     return room;
   }
+  int maxCur(int r){
+    return dialogue[r].length;
+  }
 
   
   

@@ -27,8 +27,8 @@ class Character {
     return pos;
   }
 
-  public void setPos(PVector new){
-    pos=new;
+  public void setPos(PVector newPos){
+    pos=newPos;
   }
   
   public int[] getScale(){
@@ -51,10 +51,10 @@ class Character {
   public void animate() {
     pos.add(dir);
     if (angleDir > 0) {
-      angle++;
+      angle+=3;
     }
     if (angleDir < 0) {
-      angle--;
+      angle-=3;
     }
     if (angle > 30 || angle < -30) {
       angleDir *= -1;
