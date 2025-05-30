@@ -3,6 +3,7 @@ int[] scale = {1, 1};
 String[] levels={"start", "hallway", "bookStack", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
 boolean inGame=false;
+boolean played=false;
 boolean spoke=false;
 PImage[] backgrounds=new PImage[10];
 String pause;
@@ -22,16 +23,16 @@ Simon simon;
 void setup() {
   size(1000, 600);
   background(200);
-  levels[level] = "simon";
+  levels[level] = "start";
   speed = 1;
   x = width / 2;
   y = height / 2;
   r=0;
   c=0;
-  mc = new Character(new PVector(x, y+100), scale, "happy", "walking", "mc", "mc");
+  mc = new Character(new PVector(x, y+150), scale, "happy", "walking", "mc", "mc");
   for(int i=0;i<teachers.length;i++){
     int[] temp={-1,1};
-    teachers[i]=new Character(new PVector(700,400), temp, "happy", "standing", "teacher", "teacher");
+    teachers[i]=new Character(new PVector(700,450), temp, "happy", "standing", "teacher", "teacher");
   }
   for(int i=0;i<backgrounds.length;i++){
     String name="images/"+levels[i];
@@ -57,29 +58,42 @@ void setup() {
 
 void draw() {
   background(200);
+  image(backgrounds[level], 0,0,width, height);
+  
   if(mc.pos().x <= 0){
     level--;
-    mc.setPos(newPVector(width-10, y+100));
+    mc.setPos(new PVector(width-10, y+100));
   }
   if(mc.pos().x>=width){
     level++;
-    mc.setPos(newPvector(10, y+100));
+    mc.setPos(new PVector(10, y+100));
+  }
+  if((!levels[level].equals("hallway") || level==1)&&level!=9){
+    r=level;
+  }
+  if(level!=0 && level!=9 && !levels[level].equals("hallway") ){
+    if(played){
+      r++;
+    }
   }
   
-  if(!levels[level].equals("hallway") && !spoke && mc.pos().x>450){
-    text.dialogue(r,c);
-    c++;
-    if(text.cur()==0){
+  if(!levels[level].equals("hallway")&&!spoke && mc.pos().x>450){
+    if(c>=text.maxCur(r)&&spoke){
       spoke=false;
-      inGame=true;
+      c=0;
+      if(!played){
+        inGame=true;
+      }
+      if(levels[level].equals("start")&&spoke){
+        level++;
+      }
     }
-    delay(5000);
+    text.dialogue(r,c);
   }
 
-  image(backgrounds[level], width, height);
   if (levels[level].equals("start")) {
   }
-  if (!inGame) {
+  if (!inGame&& level!=0 && level!=9) {
     if (keyPressed == false) {
       mc.setAction("standing");
       mc.setDir(new PVector(0, 0));
@@ -88,7 +102,9 @@ void draw() {
     if (frameCount % speed == 0) {
       mc.animate();
     }
-    teachers[(level-1)/2].side();
+    if(!levels[level].equals("hallway")){
+      teachers[(level-1)/2].side();
+    }
   }
   if(levels[level].equals("puzzle")&&inGame){
     puzzle.draw();
@@ -115,17 +131,30 @@ void draw() {
 }
 
 void keyPressed() {
+  if(key== ENTER){
+      c++;
+      if(c>=text.maxCur(r)){
+      spoke=false;
+      c=0;
+      if(!played&&level>1){
+        inGame=true;
+      }
+      if(levels[level].equals("start")){
+        level++;
+      }
+    }
+    }
   if (key == CODED) {
     if(!inGame){
       if (keyCode == LEFT) {
         mc.setAction("walking");
-        mc.setDir(new PVector(-2, 0));
+        mc.setDir(new PVector(-5, 0));
         scale[0] = -1;
         mc.setScale(scale);
       }
       if (keyCode == RIGHT) {
         mc.setAction("walking");
-        mc.setDir(new PVector(2, 0));
+        mc.setDir(new PVector(5, 0));
         scale[0] = 1;
         mc.setScale(scale);
       }
@@ -143,18 +172,21 @@ void mouseClicked() {
   }
   if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
     inGame=false;
+    played=true;
   }
   
   if(levels[level].equals("simon") && inGame){
     simon.select(new PVector(mouseX, mouseY));
     if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
       inGame=false;
+      played=true;
     }
   }
   
   int a =x- mouseX;
   int b =y-mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
+  c++;
 }
 
 
