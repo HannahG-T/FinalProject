@@ -19,6 +19,7 @@ PVector offset;
 
 Simon simon;
 
+Snake snake;
 
 
 void setup() {
@@ -59,6 +60,7 @@ void setup() {
   text=new Text();
   puzzle=new Puzzle();
   simon=new Simon();
+  snake=new Snake();
 }
 
 void draw() {
@@ -105,6 +107,13 @@ void draw() {
       teachers[(level-1)/2].side();
     }
   }
+
+  //snake game
+  if(levels[level].equals("snake") && inGame){
+    snake.draw();
+    if(snake.isCompleted(){
+      grades.addGrade(snake.grade());
+    }
   
   //simon game
   if(levels[level].equals("simon")&& inGame){
@@ -165,6 +174,19 @@ void keyPressed() {
       }
     }
   }
+  if(levels[level].equals("snake") && inGame){
+    if (key == CODED) {
+    if (keyCode == UP && !(dir.y == 1)) {
+      snake.setDir(new PVector(0, -1));
+    } else if (keyCode == DOWN && !(dir.y == -1)) {
+      snake.setDir(new PVector(0, 1));
+    } else if (keyCode == LEFT && !(dir.x == 1)) {
+      snake.setDir(new PVector(-1, 0));
+    } else if (keyCode == RIGHT && !(dir.x == -1)) {
+      snake.setDir(new PVector(1, 0));
+    }
+  } 
+  }
 }
 
 void mouseClicked() {
@@ -177,7 +199,13 @@ void mouseClicked() {
   if(levels[level].equals("gradebook")&&mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){ 
     levels[level]=pause;
   }
-  
+
+  //end snake
+if(inGame && levels[level].equals("snake") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+  inGame=false;
+  played=true;
+  c=0;
+}
   
   //end/play simon
   if(levels[level].equals("simon") && inGame){
