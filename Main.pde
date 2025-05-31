@@ -1,6 +1,6 @@
 int speed, x, y, r, c;
 int[] scale = {1, 1};
-String[] levels={"start", "hallway", "bookStack", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
+String[] levels={"start", "hallway", "snake", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
 boolean inGame=false;
 boolean played=false;
