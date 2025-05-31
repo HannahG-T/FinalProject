@@ -31,9 +31,12 @@ int spd = 20; // reverse speed (smaller spd will make the snake move faster)
 int len = 4; // snake body
 
 boolean completed= false;
-int grade=100;
+Grade grade=new Grade("Ela", 100);
+boolean showGradeScreen = false;
+int gradeScreenTime = 0;
+int gradeDisplayDuration = 2000;
 
-publoc Snake() {
+public Snake() {
   size(1080, 720);
   w = width/size;
   h = height/size;
@@ -76,20 +79,59 @@ void draw() {
     updateSnake();   
   }
   }
-  else{
+  if(completed){
     drawGrade();
   }
+
+  if (showGradeScreen) {
+      if (millis() - gradeScreenTime > gradeDisplayDuration) {
+        showGradeScreen = false;
+        reset();
+      } else {
+        showGrade();
+      }
+    }
 }
 
 boolean isCompleted(){
   return completed;
 }
 
-int grade(){
+Grade grade(){
   return grade;
 }
 
 void drawGrade(){
+pushMatrix();
+    translate(width / 2, height / 2);
+    rectMode(CENTER); 
+    if(isCompleted()){
+      fill(255);
+      quad(-300,-200, 300,-200, 300,200, -300,200);
+      Text text=new Text(60);
+      if(grade.num()>65){
+        text.draw("CONGRATS", new PVector(-180, -100));
+        text.draw(grade.string(), new PVector(-150,0));
+      }
+      else{
+        text.draw(":(", new PVector(-50, -100));
+        text.draw(grade.string(), new PVector(-150,0));
+      }
+      fill(255);
+      rect(0,130,400,50);
+      Text smaller=new Text(40);
+      smaller.draw("continue",new PVector(-80,140));
+    }
+    else{
+      fill(255, 0, 0);
+      rect(0, 0, 600, 400);
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(32);
+      text("Grade: " + grade.num(), 0, 0);
+    }
+    rectMode(CORNER);
+    popMatrix();
 }
 
 // draw the food item (square) which size is tha variable size
@@ -142,7 +184,8 @@ void updateSnake() {
   // If snake (head) eats itself, gameover, reset()
   for (PVector coord : snake) {
     if (coord.equals(pos) && (dir.x!=0 || dir.y!=0)) {
-      reset();
+      showGradeScreen=true;
+      gradeScreenTime=millis();
     }
   }
 
@@ -150,7 +193,8 @@ void updateSnake() {
   // If mode 'border', when snake hit a border, gameover, reset()
   if (actual_mode.equals("border")) {
     if (pos.x < 0 || pos.x >= w || pos.y < 0 || pos.y >= h) {
-      reset();
+      showGradeScreen=true;
+      gradeScreenTime=millis();
     }
   } else if (actual_mode.equals("no_border")) {
     if (pos.x < 0){ 
@@ -176,7 +220,10 @@ void reset() {
   snake = new ArrayList<PVector>();
   newFood();
   snakeColor=color(33, 196, 50);
-  grade-= 5;
+  grade.minus(5);
+  showGradeScreen = false;
+  gradeScreenTime = millis();
+  gradeDisplayDuration = 2000;
 }
 
 void keyPressed() {
@@ -200,19 +247,22 @@ void keyPressed() {
     if (key == 'm') {
       mode_pos = (mode_pos + 1) % mode_list.size();
       actual_mode = mode_list.get(mode_pos);
-      reset();
+      showGradeScreen=true;
+      gradeScreenTime=millis();
     }
     if (key == '+') {
       size += 5;
       w = width / size;
       h = height / size;
-      reset();
+      showGradeScreen=true;
+      gradeScreenTime=millis();
     }
     if (key == '-' && size > 10) {
       size -= 5;
       w = width / size;
       h = height / size;
-      reset();
+      showGradeScreen=true;
+      gradeScreenTime=millis();
     }
   }
 }
