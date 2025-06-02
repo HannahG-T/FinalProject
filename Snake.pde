@@ -10,14 +10,14 @@
  *     Food is displayed randomly
  *     Food and parts of the snake body are squares
  */
-class snake{
+class Snake{
 // global variables
 ArrayList<PVector> snake = new ArrayList<PVector>(); // snake body (not included the head)
 PVector pos; // snake position (position of the head)
 color snakeColor;
 
 StringList mode_list = new StringList(new String[] {"border", "no_border"}); // if you implement both functionalities
-int mode_pos = 1; // mode 1 by default - if hits wall wraps around
+int mode_pos = 0; // mode 1 by default - if hits wall wraps around
 String actual_mode = mode_list.get(mode_pos); // current mode name
 
 PVector food; // food position
@@ -37,7 +37,6 @@ int gradeScreenTime = 0;
 int gradeDisplayDuration = 2000;
 
 public Snake() {
-  size(1080, 720);
   w = width/size;
   h = height/size;
   snakeColor=color(33, 196, 50);
@@ -52,7 +51,7 @@ public Snake() {
 void draw() {
   background(200);
   int c=0;
-  if (len>10){
+  if (len>3){
     completed=true;
   }
 
@@ -88,7 +87,7 @@ void draw() {
         showGradeScreen = false;
         reset();
       } else {
-        showGrade();
+        drawGrade();
       }
     }
 }
@@ -184,6 +183,7 @@ void updateSnake() {
   // If snake (head) eats itself, gameover, reset()
   for (PVector coord : snake) {
     if (coord.equals(pos) && (dir.x!=0 || dir.y!=0)) {
+      grade.minus(5);
       showGradeScreen=true;
       gradeScreenTime=millis();
     }
@@ -193,6 +193,7 @@ void updateSnake() {
   // If mode 'border', when snake hit a border, gameover, reset()
   if (actual_mode.equals("border")) {
     if (pos.x < 0 || pos.x >= w || pos.y < 0 || pos.y >= h) {
+      grade.minus(5);
       showGradeScreen=true;
       gradeScreenTime=millis();
     }
@@ -220,11 +221,15 @@ void reset() {
   snake = new ArrayList<PVector>();
   newFood();
   snakeColor=color(33, 196, 50);
-  grade.minus(5);
   showGradeScreen = false;
   gradeScreenTime = millis();
   gradeDisplayDuration = 2000;
 }
+
+void setDir(PVector newDir){
+  dir=newDir;
+}
+
 
 void keyPressed() {
   // if UP is pressed => dir = new PVector(...)

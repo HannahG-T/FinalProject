@@ -25,7 +25,7 @@ Snake snake;
 void setup() {
   size(1000, 600);
   background(200);
-  level=5;
+  level=8;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -77,6 +77,7 @@ void draw() {
     mc.setPos(new PVector(10, y));
     spoke=false;
     played=false;
+    c=0;
   }
   
   //dialogue
@@ -89,12 +90,12 @@ void draw() {
     }
   }
   
-  if((!levels[level].equals("hallway") || level==1)&&!spoke && mc.pos().x>450){
+  if((!levels[level].equals("hallway") || level==1 )&&!spoke && mc.pos().x>450){
     text.dialogue(r,c);
   }
 
   //mc animation and teachers
-  if (!inGame&& level!=0 && level!=9) {
+  if (!inGame&& level!=0 ) {
     if (keyPressed == false) {
       mc.setAction("standing");
       mc.setDir(new PVector(0, 0));
@@ -111,9 +112,10 @@ void draw() {
   //snake game
   if(levels[level].equals("snake") && inGame){
     snake.draw();
-    if(snake.isCompleted(){
+    if(snake.isCompleted()){
       grades.addGrade(snake.grade());
     }
+  }
   
   //simon game
   if(levels[level].equals("simon")&& inGame){
@@ -127,7 +129,7 @@ void draw() {
   if(levels[level].equals("puzzle")&&inGame){
     puzzle.draw();
     if(puzzle.isComplete()){
-      grades.addGrade("ELA", 95);
+      grades.addGrade("Ela", 95);
       grades.draw();
       puzzle.grade();
     }
@@ -138,7 +140,7 @@ void draw() {
     grades.draw();
   }
   grades.drawIcon();
-}
+  }
 
 void keyPressed() {
   //forward dialogue
@@ -176,13 +178,13 @@ void keyPressed() {
   }
   if(levels[level].equals("snake") && inGame){
     if (key == CODED) {
-    if (keyCode == UP && !(dir.y == 1)) {
+    if (keyCode == UP) {
       snake.setDir(new PVector(0, -1));
-    } else if (keyCode == DOWN && !(dir.y == -1)) {
+    } else if (keyCode == DOWN ) {
       snake.setDir(new PVector(0, 1));
-    } else if (keyCode == LEFT && !(dir.x == 1)) {
+    } else if (keyCode == LEFT ) {
       snake.setDir(new PVector(-1, 0));
-    } else if (keyCode == RIGHT && !(dir.x == -1)) {
+    } else if (keyCode == RIGHT ) {
       snake.setDir(new PVector(1, 0));
     }
   } 
@@ -201,9 +203,10 @@ void mouseClicked() {
   }
 
   //end snake
-if(inGame && levels[level].equals("snake") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+if(inGame && levels[level].equals("snake") && snake.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
   inGame=false;
   played=true;
+  spoke=false;
   c=0;
 }
   
@@ -213,6 +216,7 @@ if(inGame && levels[level].equals("snake") && puzzle.isComplete()&& mouseX>width
     if(simon.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
       inGame=false;
       played=true;
+      spoke=false;
       c=0;
     }
   }
@@ -221,14 +225,13 @@ if(inGame && levels[level].equals("snake") && puzzle.isComplete()&& mouseX>width
   if(inGame && levels[level].equals("puzzle") && puzzle.isComplete()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
     inGame=false;
     played=true;
+    spoke=false;
     c=0;
   }
-  
   
   int a =x- mouseX;
   int b =y-mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
-  c++;
 }
 
 

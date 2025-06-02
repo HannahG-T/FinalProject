@@ -7,8 +7,8 @@ class Puzzle{
   
   public Puzzle(){
     img=loadImage("images/puzzle.jpg");
-    w=1;
-    h=1;
+    w=4;
+    h=5;
     size=100;
     pieces=new ArrayList<Piece>();
     for(int x=0;x<w;x++){

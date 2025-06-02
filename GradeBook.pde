@@ -39,11 +39,11 @@ class GradeBook{
     line(-250,0,250,0);
     line(-250,75,250,75);
     Text text=new Text();
-    text.draw("ELA", new PVector(-230,-105));
+    text.draw("Ela", new PVector(-230,-105));
     text.draw("Math", new PVector(-230,-30));
     text.draw("Sciece", new PVector(-230,45));
     text.draw("History", new PVector(-230,120));
-    String[] order={"ELA", "Math", "Science", "History"};
+    String[] order={"Ela", "Math", "Science", "History"};
     for(int i=0;i<4;i++){
       boolean written=false;
       for(int j=0;j<gradebook.size();j++){
@@ -65,6 +65,7 @@ class GradeBook{
     translate(0,0);
     fill(225);
     rect(20,20,40,55);
+    stroke(0);
     line(25,20, 25,75);
     rect(30,25,25,15);
     popMatrix();
