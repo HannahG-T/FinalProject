@@ -12,7 +12,7 @@ class Tile{
     this.front=front;
     this.value=value;
     back=loadImage("images/tile.png");
-    size=50;
+    size=80;
   }
   
   public int value(){
