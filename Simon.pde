@@ -8,8 +8,9 @@ class Simon {
 
   int size = 100;
   int flashIndex = 0;
-  int flashDuration = 500;
+  int flashDuration = 1000;
   int flashStartTime = 0;
+  int startTime=5000;
   boolean flashing = true;
 
   int select = -1;
@@ -52,12 +53,14 @@ class Simon {
 
     if (flashing) {
       if (flashIndex < order.size()) {
+        if(millis()>startTime){
         if (millis() - flashStartTime >= flashDuration) {
           flashStartTime = millis();
           select = order.get(flashIndex);
           flashIndex++;
         } else if (millis() - flashStartTime >= flashDuration / 2) {
           select = -1;
+        }
         }
       } else {
         flashing = false;

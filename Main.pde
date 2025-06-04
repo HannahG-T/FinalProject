@@ -2,11 +2,11 @@ int speed, x, y, r, c;
 int[] scale = {1, 1};
 String[] levels={"start", "hallway", "snake", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
-boolean inGame=false;
+boolean paused;
+boolean inGame=true;
 boolean played=false;
 boolean spoke=false;
 PImage[] backgrounds=new PImage[10];
-String pause;
 
 Character mc;
 Character[] teachers=new Character[4];
@@ -21,11 +21,12 @@ Simon simon;
 
 Snake snake;
 
+Memory memory;
 
 void setup() {
   size(1000, 600);
   background(200);
-  level=8;
+  level=6;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -61,6 +62,7 @@ void setup() {
   puzzle=new Puzzle();
   simon=new Simon();
   snake=new Snake();
+  memory=new Memory();
 }
 
 void draw() {
@@ -90,7 +92,7 @@ void draw() {
     }
   }
   
-  if((!levels[level].equals("hallway") || level==1 )&&!spoke && mc.pos().x>450){
+  if((!levels[level].equals("hallway") || level==1 ||level==9 )&&!spoke && mc.pos().x>450){
     text.dialogue(r,c);
   }
 
@@ -104,7 +106,7 @@ void draw() {
     if (frameCount % speed == 0) {
       mc.animate();
     }
-    if(!levels[level].equals("hallway")){
+    if(!levels[level].equals("hallway")&&level!=9){
       teachers[(level-1)/2].side();
     }
   }
@@ -115,6 +117,11 @@ void draw() {
     if(snake.isCompleted()){
       grades.addGrade(snake.grade());
     }
+  }
+  
+  //memory game
+  if (levels[level].equals("memory") && inGame){
+    memory.draw();
   }
   
   //simon game
@@ -129,14 +136,14 @@ void draw() {
   if(levels[level].equals("puzzle")&&inGame){
     puzzle.draw();
     if(puzzle.isComplete()){
-      grades.addGrade("Ela", 95);
+      grades.addGrade("History", 95);
       grades.draw();
       puzzle.grade();
     }
   }
   
   //draw grade menu
-  if(levels[level].equals("gradebook")){
+  if(paused){
     grades.draw();
   }
   grades.drawIcon();
@@ -194,12 +201,11 @@ void keyPressed() {
 void mouseClicked() {
   //pause and open gradebook menu
   if(mouseX>20 && mouseY>20 && mouseX<60 && mouseY<75){
-    pause=levels[level];
-    levels[level]="gradebook";
+    paused=true;
   }
   //close grade menu
-  if(levels[level].equals("gradebook")&&mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){ 
-    levels[level]=pause;
+  if(mouseX>width/2+260 && mouseY>height/2-190 && mouseX<width/2+290 && mouseY<width/2-160){ 
+    paused=false;
   }
 
   //end snake

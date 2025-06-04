@@ -4,6 +4,7 @@ class Puzzle{
   ArrayList<PVector> answer;
   int w, h;
   int size;
+  boolean paused;
   
   public Puzzle(){
     img=loadImage("images/puzzle.jpg");
