@@ -42,23 +42,30 @@ class Memory{
     }
     
     if(show){
-    if(millis()>startTime){
-      for(Tile tile: tiles){
-        tile.flip(true);
+      if(millis()>startTime){
+        for(Tile tile: tiles){
+          tile.flip(true);
+        }
+        if(millis() - flipStartTime >= flipTime) {
+            flipStartTime = millis();
+            show=false;
+            for(Tile tile: tiles){
+              tile.flip(false);
+            }
+        }
       }
-      if(millis() - flipStartTime >= flipTime) {
-          flipStartTime = millis();
-          show=false;
-          for(Tile tile: tiles){
-            tile.flip(false);
-          }
-      }
-    }
     }
     
   }
   
-  
+  public void clicked(PVector clicked){
+    for(int i=0;i<pos.length;i++){
+      if(clicked.x>pos[i].x && clicked.x<pos[i].x+80 && clicked.y>pos[i].y && clicked.y<pos[i].y+80){
+        
+      }
+    }
+    
+  }
   
   
   
