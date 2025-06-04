@@ -1,6 +1,7 @@
 class Memory{
  Tile[] tiles= new Tile[16];
  boolean completed;
+ boolean show=true;;
  PVector[] pos= new PVector[16];
  Tile first;
  Tile second;
@@ -9,7 +10,7 @@ class Memory{
  ArrayList<Integer> possible=new ArrayList<Integer>();
  
  int startTime=5000;
- int flipTime=1000;
+ int flipTime=1000000;
  int flipStartTime=0;
 
   
@@ -18,8 +19,8 @@ class Memory{
   completed=false;
   matched=0;
   for(int i=0; i<8; i++){
-   possible.add(1);
-   possible.add(1);
+   possible.add(i+1);
+   possible.add(i+1);
   }
   for (int i=0; i<tiles.length; i++){
     int x=300+27*(i%4)+80*(i%4);
@@ -40,11 +41,19 @@ class Memory{
       tiles[i].draw();
     }
     
+    if(show){
     if(millis()>startTime){
+      for(Tile tile: tiles){
+        tile.flip(true);
+      }
       if(millis() - flipStartTime >= flipTime) {
           flipStartTime = millis();
-          
+          show=false;
+          for(Tile tile: tiles){
+            tile.flip(false);
+          }
       }
+    }
     }
     
   }

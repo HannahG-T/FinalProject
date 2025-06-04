@@ -19,6 +19,22 @@ class Tile{
     return value;
   }
   
+  public void flip(){
+    if(revealed){
+      revealed=false;
+    }
+    else{
+      revealed=true;
+    }
+  }
+  public void flip(boolean flip){
+    revealed=flip;
+  }
+  
+  public boolean flipped(){
+    return revealed;
+  }
+  
   public void draw(){
     if(revealed||matched){
       image(front, pos.x,pos.y,size,size);

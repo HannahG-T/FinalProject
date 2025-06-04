@@ -51,13 +51,13 @@ public Snake() {
 void draw() {
   background(200);
   int c=0;
-  if (len>3){
+  if (len>10){
     completed=true;
   }
 
   for(int i=0;i<w;i++){
     for(int j=0;j<h;j++){
-      if(c%2==0){
+      if((j+i)%2==0){
         fill(34,92,40);
       }
       else{
@@ -66,7 +66,6 @@ void draw() {
       square(i*size,j*size,size);
       c++;
     }
-    c++;
   }
   if (!completed){
   drawSnake();
@@ -186,6 +185,7 @@ void updateSnake() {
       grade.minus(5);
       showGradeScreen=true;
       gradeScreenTime=millis();
+      reset();
     }
   }
 
@@ -196,6 +196,7 @@ void updateSnake() {
       grade.minus(5);
       showGradeScreen=true;
       gradeScreenTime=millis();
+      reset();
     }
   } else if (actual_mode.equals("no_border")) {
     if (pos.x < 0){ 
@@ -221,7 +222,6 @@ void reset() {
   snake = new ArrayList<PVector>();
   newFood();
   snakeColor=color(33, 196, 50);
-  showGradeScreen = false;
   gradeScreenTime = millis();
   gradeDisplayDuration = 2000;
 }
