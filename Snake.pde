@@ -51,7 +51,7 @@ public Snake() {
 void draw() {
   background(200);
   int c=0;
-  if (len>10){
+  if (len>3){
     completed=true;
   }
 

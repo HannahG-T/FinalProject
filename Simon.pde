@@ -5,10 +5,11 @@ class Simon {
 
   ArrayList<Integer> order;
   ArrayList<Integer> answers;
+  int num=10;
 
   int size = 100;
   int flashIndex = 0;
-  int flashDuration = 1000;
+  int flashDuration = 500;
   int flashStartTime = 0;
   int startTime=5000;
   boolean flashing = true;
@@ -33,11 +34,16 @@ class Simon {
 
     order = new ArrayList<Integer>();
     answers = new ArrayList<Integer>();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < num; i++) {
       order.add((int)random(4));
     }
 
     flashStartTime = millis();
+  }
+  
+  public void start(){
+    flashStartTime = millis();
+    startTime=millis()+5000;
   }
 
   void draw() {

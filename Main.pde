@@ -3,7 +3,7 @@ int[] scale = {1, 1};
 String[] levels={"start", "hallway", "snake", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
 boolean paused;
-boolean inGame=true;
+boolean inGame=false;
 boolean played=false;
 boolean spoke=false;
 PImage[] backgrounds=new PImage[10];
@@ -26,7 +26,7 @@ Memory memory;
 void setup() {
   size(1000, 600);
   background(200);
-  level=4;
+  level=0;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -122,6 +122,9 @@ void draw() {
   //memory game
   if (levels[level].equals("memory") && inGame){
     memory.draw();
+    if(memory.isCompleted()){
+      grades.addGrade(memory.getGrade());
+    }
   }
   
   //simon game
@@ -152,12 +155,20 @@ void draw() {
 void keyPressed() {
   //forward dialogue
   if(key== ENTER){
-      c++;
+      if((!levels[level].equals("hallway") || level==1 ||level==9 )&&!spoke && mc.pos().x>450){
+        c++;
+      }
       if(c>=text.maxCur(r)){
         spoke=true;
         c=0;
         if(!played&&level>1){
           inGame=true;
+          if(levels[level].equals("memory")){
+            memory.start();
+          }
+          if(levels[level].equals("simon")){
+            simon.start();
+          }
         }
         if(levels[level].equals("start")){
           level++;
@@ -215,6 +226,17 @@ if(inGame && levels[level].equals("snake") && snake.isCompleted()&& mouseX>width
   spoke=false;
   c=0;
 }
+
+  //memory game
+  if(levels[level].equals("memory")&& inGame){
+    memory.clicked(new PVector(mouseX, mouseY));
+    if(memory.isCompleted()&& mouseX>width/2-200 && mouseX<width/2+200 && mouseY>height/2+100 && mouseY<height/2+150){
+      inGame=false;
+      played=true;
+      spoke=false;
+      c=0;
+    }
+  }
   
   //end/play simon
   if(levels[level].equals("simon") && inGame){

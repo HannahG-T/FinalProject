@@ -31,7 +31,7 @@ class Tile{
     revealed=flip;
   }
   
-  public boolean flipped(){
+  public boolean revealed(){
     return revealed;
   }
   
