@@ -26,7 +26,7 @@ Memory memory;
 void setup() {
   size(1000, 600);
   background(200);
-  level=0;
+  level=5;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
