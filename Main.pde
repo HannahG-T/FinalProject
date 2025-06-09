@@ -26,7 +26,7 @@ Memory memory;
 void setup() {
   size(1000, 600);
   background(200);
-  level=5;
+  level=9;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -92,7 +92,7 @@ void draw() {
     }
   }
   
-  if((!levels[level].equals("hallway") || level==1 ||level==9 )&&!spoke && mc.pos().x>450){
+  if((!levels[level].equals("hallway") || level==1 )&&!spoke && mc.pos().x>450 && level!=9){
     text.dialogue(r,c);
   }
 
@@ -150,7 +150,37 @@ void draw() {
     grades.draw();
   }
   grades.drawIcon();
+  if(level==9){
+    end();
   }
+  }
+  
+  public void end(){
+    ArrayList<Grade> gradebook=grades.gradebook();
+    grades.addGrade(new Grade("History", 100));
+    for(int i=0;i<4;i++){
+      if(i<=1){
+        int[] s= {1,1};
+        teachers[i].setScale(s);
+        PVector p=new PVector(200*(i+1)-100,y);
+        teachers[i].setPos(p);
+      }
+      else{
+        int[] s= {-1,1};
+        teachers[i].setScale(s);
+        PVector p=new PVector(200*(i+1)+100,y);
+        teachers[i].setPos(p);
+      }
+      if(gradebook.size()>i && gradebook.get(i).num()>65){
+        teachers[i].jump();
+      }
+      teachers[i].side();
+    }
+  }
+  
+  
+  
+  
 
 void keyPressed() {
   //forward dialogue

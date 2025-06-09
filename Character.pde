@@ -60,6 +60,19 @@ class Character {
       angleDir *= -1;
     }
   }
+  
+  void jump(){
+    int jumpHeight=100;
+    if(pos.y==jumpHeight){
+      dir=new PVector(0,-5);
+      pos.y=jumpHeight-1;
+    }
+    if(pos.y==150){
+      pos.y=151;
+      dir=new PVector(0,5);
+    }
+    
+  }
 
   void side() {
     pushMatrix();

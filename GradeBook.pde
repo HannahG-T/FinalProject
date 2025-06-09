@@ -60,6 +60,10 @@ class GradeBook{
     popMatrix();
   }
   
+  public ArrayList<Grade> gradebook(){
+    return gradebook;
+  }
+  
   public void drawIcon(){
     pushMatrix();
     translate(0,0);
