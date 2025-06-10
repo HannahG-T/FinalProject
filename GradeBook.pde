@@ -60,6 +60,40 @@ class GradeBook{
     popMatrix();
   }
   
+  public void drawFinal(){
+    pushMatrix();
+    translate(width/2, height/2);
+    fill(225);
+    
+    rect(-250,-150, 200,300);
+    rect(-50,-150, 300,300);
+    
+    line(-250,-75,250,-75);
+    line(-250,0,250,0);
+    line(-250,75,250,75);
+    Text text=new Text();
+    text.draw("Ela", new PVector(-230,-105));
+    text.draw("Math", new PVector(-230,-30));
+    text.draw("Sciece", new PVector(-230,45));
+    text.draw("History", new PVector(-230,120));
+    String[] order={"Ela", "Math", "Science", "History"};
+    for(int i=0;i<4;i++){
+      boolean written=false;
+      for(int j=0;j<gradebook.size();j++){
+        if(gradebook.get(j).subj().equals(order[i])){
+          text.draw(gradebook.get(j).calcLetter()+"      "+gradebook.get(j).num(), new PVector(-30,-105+i*75));
+          written=true;
+        }
+      }
+      if(!written){
+        text.draw("-----",new PVector(-30,-105+i*75));
+      }
+    }
+    
+    popMatrix();
+    
+  }
+  
   public ArrayList<Grade> gradebook(){
     return gradebook;
   }

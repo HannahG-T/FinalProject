@@ -21,6 +21,11 @@ class Simon {
   int gradeScreenTime = 0;
   int gradeDisplayDuration = 2000;
 
+  int clickDuration=200;
+  int clickStart=-1;
+  boolean clickFlash=false;
+  
+  
   Simon() {
     for (int i = 0; i < 4; i++) {
       images[i] = loadImage("images/simon" + i + ".png");
@@ -47,19 +52,19 @@ class Simon {
   }
 
   void draw() {
-    background(200);
+  background(200);
 
-    for (int i = 0; i < 4; i++) {
-      if (i == select) {
-        image(selected[i], pos[i].x, pos[i].y, size, size);
-      } else {
-        image(images[i], pos[i].x, pos[i].y, size, size);
-      }
+  for (int i = 0; i < 4; i++) {
+    if (i == select) {
+      image(selected[i], pos[i].x, pos[i].y, size, size);
+    } else {
+      image(images[i], pos[i].x, pos[i].y, size, size);
     }
+  }
 
-    if (flashing) {
-      if (flashIndex < order.size()) {
-        if(millis()>startTime){
+  if (flashing) {
+    if (flashIndex < order.size()) {
+      if (millis() > startTime) {
         if (millis() - flashStartTime >= flashDuration) {
           flashStartTime = millis();
           select = order.get(flashIndex);
@@ -67,34 +72,44 @@ class Simon {
         } else if (millis() - flashStartTime >= flashDuration / 2) {
           select = -1;
         }
-        }
-      } else {
-        flashing = false;
-        select = -1;
       }
-    }
-    if(completed){
-      showGrade();
-    }
-
-    else if (showGradeScreen) {
-      if (millis() - gradeScreenTime > gradeDisplayDuration) {
-        showGradeScreen = false;
-        reset();
-      } else {
-        showGrade();
-      }
+    } else {
+      flashing = false;
+      select = -1;
     }
   }
 
+  // Click flash logic
+  if (clickFlash && millis() - clickStart >= clickDuration) {
+    select = -1;
+    clickFlash = false;
+  }
+
+  if (completed) {
+    showGrade();
+  } else if (showGradeScreen) {
+    if (millis() - gradeScreenTime > gradeDisplayDuration) {
+      showGradeScreen = false;
+      reset();
+    } else {
+      showGrade();
+    }
+  }
+}
+
+
   void select(PVector clicked) {
-    if (flashing || completed || showGradeScreen) return;
+    if (flashing || completed || showGradeScreen){
+      return;
+    }
 
     for (int i = 0; i < 4; i++) {
       PVector p = pos[i];
       if (clicked.x > p.x && clicked.x < p.x + size &&
           clicked.y > p.y && clicked.y < p.y + size) {
         select = i;
+        clickFlash=true;
+        clickStart=millis();
         answers.add(i);
         checkAnswer();
         return;
@@ -113,7 +128,6 @@ class Simon {
       showGradeScreen = true;
       gradeScreenTime = millis();
     }
-    select = -1;
   }
 
   void showGrade() {

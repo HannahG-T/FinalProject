@@ -4,6 +4,8 @@ class Character {
   int[] scale;
   String expression, action, hair, body;
   color hairColor, bodyColor;
+  int speed,arm;
+  boolean up;
 
   public Character(PVector newPos, int[] newScale, String newExp, String newAct, String newHair, String newBody) {
     pos = newPos;
@@ -21,10 +23,17 @@ class Character {
       hairColor = color(97, 71, 25);
       bodyColor = color(219, 60, 48);
     }
+    speed=5;
+    arm=80;
+    up=false;
   }
   
   public PVector pos(){
     return pos;
+  }
+  
+  public void setX(int X){
+    pos=new PVector(X,pos.y);
   }
 
   public void setPos(PVector newPos){
@@ -33,6 +42,10 @@ class Character {
   
   public int[] getScale(){
     return scale;
+  }
+  
+  public void up(){
+    up=true;
   }
   
 
@@ -61,15 +74,22 @@ class Character {
     }
   }
   
+  
   void jump(){
-    int jumpHeight=100;
-    if(pos.y==jumpHeight){
-      dir=new PVector(0,-5);
-      pos.y=jumpHeight-1;
+    int jumpHeight=300;
+    dir=new PVector(0,speed);
+    pos.add(dir);
+    if(pos.y<=360 || pos.y>=460){
+      speed*=-1;
     }
-    if(pos.y==150){
-      pos.y=151;
-      dir=new PVector(0,5);
+    if(angleDir>0){
+      arm++;
+    }
+    if(angleDir<0){
+      arm--;
+    }
+    if(arm>=100 || arm<=70){
+      angleDir*=-1;
     }
     
   }
@@ -149,7 +169,13 @@ class Character {
     if (action.equals("standing")) {
       //hands
       fill(237, 215, 175);
-      circle(0, 60, 15);
+      
+      if(up){
+        circle(0, 60-arm, 15);
+      }
+      else{
+        circle(0, 60, 15);
+      }
       //feet
       fill(255);
       arc(0, 100, 25, 20, PI, TWO_PI);

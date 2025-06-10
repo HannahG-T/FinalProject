@@ -9,7 +9,7 @@ class Memory{
  Grade grade=new Grade("Math", 100);
  ArrayList<Integer> possible=new ArrayList<Integer>();
  
- int startTime=6000;
+ int startTime=5000;
  int flipTime=10000;
  int flipStartTime;
 
@@ -38,7 +38,7 @@ class Memory{
  
  public void start(){
    flipStartTime=millis();
-  startTime=millis()+4000;
+  startTime=millis()+1000;
  }
 
  

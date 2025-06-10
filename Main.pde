@@ -23,10 +23,14 @@ Snake snake;
 
 Memory memory;
 
+PVector pos;
+PVector dir;
+int d=10;
+
 void setup() {
   size(1000, 600);
   background(200);
-  level=9;
+  level=4;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -63,14 +67,22 @@ void setup() {
   simon=new Simon();
   snake=new Snake();
   memory=new Memory();
+  pos=new PVector(x,y);
+  dir=new PVector(0,-1);
 }
+
 
 void draw() {
   //background images
   image(backgrounds[level], 0,0,width, height);
   
+  //end
+  if(level==9){
+    end();
+  }
+  
   //move to next room
-  if(mc.pos().x <= 0){
+  if(mc.pos().x <= 0 && level>1){
     level--;
     mc.setPos(new PVector(width-10, y));
   }
@@ -150,32 +162,38 @@ void draw() {
     grades.draw();
   }
   grades.drawIcon();
-  if(level==9){
-    end();
-  }
   }
   
+  
   public void end(){
+    rectMode(CENTER);
+    rect(width/2, 120, 500,100);
+    rectMode(CORNER);
+    text.size(60);
+      text.draw("CONGRATS! :)", new PVector(300,135));
+      grades.drawFinal();
     ArrayList<Grade> gradebook=grades.gradebook();
-    grades.addGrade(new Grade("History", 100));
+    int pass=0;
     for(int i=0;i<4;i++){
       if(i<=1){
         int[] s= {1,1};
         teachers[i].setScale(s);
-        PVector p=new PVector(200*(i+1)-100,y);
-        teachers[i].setPos(p);
+        teachers[i].setX(200*(i+1)-100);
       }
       else{
         int[] s= {-1,1};
         teachers[i].setScale(s);
-        PVector p=new PVector(200*(i+1)+100,y);
-        teachers[i].setPos(p);
-      }
-      if(gradebook.size()>i && gradebook.get(i).num()>65){
-        teachers[i].jump();
+        teachers[i].setX(200*(i+1)+100);
       }
       teachers[i].side();
+      if(gradebook.size()>=i && gradebook.get(i).num()>65){
+        teachers[i].up();
+        teachers[i].jump();
+        pass++;
+      }
     }
+    
+    
   }
   
   

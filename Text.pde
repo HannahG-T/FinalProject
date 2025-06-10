@@ -28,6 +28,11 @@ class Text{
     textFont(font);
   }
   
+  public void size(int size){
+    font=createFont("Serif", size);
+    textFont(font);
+  }
+  
   public void drawString(String text,PVector newPos, Character person){
     textAlign((int)newPos.x,(int)newPos.y);
     pos=newPos;
