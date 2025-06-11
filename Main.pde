@@ -2,6 +2,7 @@ int speed, x, y, r, c;
 int[] scale = {1, 1};
 String[] levels={"start", "hallway", "snake", "hallway", "memory", "hallway", "simon", "hallway", "puzzle", "end"};
 int level;
+boolean startScreen;
 boolean paused;
 boolean inGame=false;
 boolean played=false;
@@ -30,7 +31,7 @@ int d=10;
 void setup() {
   size(1000, 600);
   background(200);
-  level=4;
+  level=0;
   speed = 1;
   x = width / 2;
   y = 150+height / 2;
@@ -69,6 +70,7 @@ void setup() {
   memory=new Memory();
   pos=new PVector(x,y);
   dir=new PVector(0,-1);
+  startScreen=true;
 }
 
 
@@ -83,8 +85,13 @@ void draw() {
   
   //move to next room
   if(mc.pos().x <= 0 && level>1){
-    level--;
-    mc.setPos(new PVector(width-10, y));
+    if(level>1){
+      level--;
+      mc.setPos(new PVector(width-10, y));
+    }
+    else{
+      mc.setPos(new PVector(1,150));
+    }
   }
   if(mc.pos().x>=width){
     level++;
@@ -162,7 +169,16 @@ void draw() {
     grades.draw();
   }
   grades.drawIcon();
+  
+  if(startScreen){
+    PImage title=loadImage("images/title.png");
+    image(title,0,0,width,height);
+    rect(200,450,600,100);
+    text.size(60);
+    text.draw("START", new PVector(400,520));
   }
+  
+}
   
   
   public void end(){
@@ -170,10 +186,9 @@ void draw() {
     rect(width/2, 120, 500,100);
     rectMode(CORNER);
     text.size(60);
-      text.draw("CONGRATS! :)", new PVector(300,135));
-      grades.drawFinal();
+    text.draw("CONGRATS! :)", new PVector(300,135));
+    grades.drawFinal();
     ArrayList<Grade> gradebook=grades.gradebook();
-    int pass=0;
     for(int i=0;i<4;i++){
       if(i<=1){
         int[] s= {1,1};
@@ -189,7 +204,15 @@ void draw() {
       if(gradebook.size()>=i && gradebook.get(i).num()>65){
         teachers[i].up();
         teachers[i].jump();
-        pass++;
+      }
+      else{
+        teachers[i].setExpression("sad");
+        if(Math.abs(mc.pos().x-teachers[i].pos().x)<100){
+          mc.setExpression("almost crying");
+        }
+        else{
+          mc.setExpression("happy");
+        }
       }
     }
     
@@ -258,6 +281,12 @@ void keyPressed() {
 }
 
 void mouseClicked() {
+  //start game
+  if(mouseX>200 && mouseX<800 && mouseY>450 && mouseY<550){
+    startScreen=false;
+    c=0;
+  }
+  
   //pause and open gradebook menu
   if(mouseX>20 && mouseY>20 && mouseX<60 && mouseY<75){
     paused=true;

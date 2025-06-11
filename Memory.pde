@@ -115,7 +115,7 @@ class Memory{
   
   
   
-  void drawGrade(){
+  public void drawGrade(){
 pushMatrix();
     translate(width / 2, height / 2);
     rectMode(CENTER); 

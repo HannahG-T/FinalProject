@@ -5,15 +5,15 @@ class Text{
   PVector pos;
   PVector end;
   String[][] dialogue= { {"Once upon a time there was a little girl (press enter to continue)", "This little girl just so happened to go to a very rigorous school...", "And at this rigorous school teachers just so happened to love final projects...", "...", "OH MY GOD I HAVE SO MANY FINAL PROJECTS!", "...", "ehem", "...","sorry","...", "anyways...", "Now this little girl had four projects in four different subjects", "Now it is your job to help her with them", "each teacher will give you instructions when you get to their room", "good luck :)"}, 
-                          {"Use the arrow keys to move forward and back", "To go to the next room walk all the way to the right"}, 
-                          {"Good day! Welcome to english class!", "Our final project isn't that hard, I just need you to feed my pet snake", "use your arrow keys to move the snake towards the colorful foods", "Successfully eat 10 foods to pass!", "be careful not to hurt my snake by running him into himself or the edges :(", "God speed! :)"},
-                          {"Now that you've finished you should go to your next class", "The door to the hallway is just behind me", "If you want to see your grade you can click the gradebook icon in the upper left corner", "Goodbye!"},
-                          {"Hello", "Hope you're memory is good because it's time to play memory :)", "A grid of tiles will show up shortly, try and memorize the positions of pairs", "Next they will flip over, use your mouse to reveal them two at a time", "Each time they don't match your grade will drop by two points so be careful", "Good luck"},
-                          {"You're free!", "I hope you don't forget everyting during the summer"},
-                          {"??", "Why...", "OH RIGHT THE FINAL", "Sorry I'm a little all over the place", "Soon you will see 4 beakers", "Due to mysterious chemical reactions those beakers will flash different colors", "After the sequence click the beakers in the order they flashed", "Don't worry you'll do fine"},
-                          {"Good job", "Now you should probably go...", "Some teachers are pretty strict about lateness"},
-                          {"You're late", "Use your mouse to click and drag the pieces to their place", "I've even been so nice to give you an outline", "GET STARTED"},
-                          {"Oh you're done", "Pray that you passed"}};
+                          {"Use the arrow keys to move forward and back (press enter to continue)", "To go to the next room walk all the way to the right"}, 
+                          {"Good day! Welcome to english class! (press enter to continue)", "Our final project isn't that hard, I just need you to feed my pet snake", "use your arrow keys to move the snake towards the colorful foods", "Successfully eat 10 foods to pass!", "be careful not to hurt my snake by running him into himself or the edges :(", "God speed! :)"},
+                          {"Now that you've finished you should go to your next class (press enter to continue)", "The door to the hallway is just behind me", "If you want to see your grade you can click the gradebook icon in the upper left corner", "Goodbye!"},
+                          {"Hello (press enter to continue)", "Hope you're memory is good because it's time to play memory :)", "A grid of tiles will show up shortly, try and memorize the positions of pairs", "Next they will flip over, use your mouse to reveal them two at a time", "Each time they don't match your grade will drop by two points so be careful", "Good luck"},
+                          {"You're free! (press enter to continue)", "I hope you don't forget everyting during the summer", "bye"},
+                          {"?? (press enter to continue)", "Why...", "OH RIGHT THE FINAL", "Sorry I'm a little all over the place", "Soon you will see 4 beakers", "Due to mysterious chemical reactions those beakers will flash different colors", "After the sequence click the beakers in the order they flashed", "Don't worry you'll do fine"},
+                          {"Good job (press enter to continue)", "Now you should probably go...", "Some teachers are pretty strict about lateness"},
+                          {"You're late (press enter to continue)", "Use your mouse to click and drag the pieces to their place", "I've even been so nice to give you an outline", "GET STARTED"},
+                          {"Oh you're done (press enter to continue)", "Pray that you passed", "Now go on, you have graduation to attend"}};
   int cur=0;
   int room=0;
   

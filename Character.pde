@@ -32,6 +32,10 @@ class Character {
     return pos;
   }
   
+  public void setExpression(String exp){
+    expression=exp;
+  }
+  
   public void setX(int X){
     pos=new PVector(X,pos.y);
   }
@@ -75,7 +79,7 @@ class Character {
   }
   
   
-  void jump(){
+  public void jump(){
     int jumpHeight=300;
     dir=new PVector(0,speed);
     pos.add(dir);
@@ -94,7 +98,7 @@ class Character {
     
   }
 
-  void side() {
+  public void side() {
     pushMatrix();
     translate(pos.x, pos.y);
     scale(scale[0], scale[1]);
@@ -140,7 +144,7 @@ class Character {
     }
     if (expression.equals("sad")) {
       noFill();
-      arc(19, 15, 8, 5, 3, 5.3);
+      arc(19, 15, 8, 5, 3.7, 5.3);
     }
     if (expression.equals("angry")) {
       noFill();
@@ -199,7 +203,7 @@ class Character {
     popMatrix();
   }
 
-  void front() {
+  public void front() {
     pushMatrix();
     translate(pos.x, pos.y);
     scale(scale[0], scale[1]);

@@ -30,19 +30,19 @@ class Piece{
     return pos;
   }
   
-  boolean contains(float x, float y) {
+  public boolean contains(float x, float y) {
     return x > pos.x && x < pos.x + size && y > pos.y && y < pos.y + size;
   }
   
-  boolean isCloseToCorrect(float snapThreshold) {
+  public boolean isCloseToCorrect(float snapThreshold) {
     return PVector.dist(pos, correctPos) < snapThreshold;
   }
 
-  void snapToCorrect() {
+  public void snapToCorrect() {
     pos = correctPos.copy();
   }
 
-  boolean isInCorrectPlace() {
+  public boolean isInCorrectPlace() {
     return pos.equals(correctPos);
   }
   

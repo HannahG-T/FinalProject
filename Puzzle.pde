@@ -38,13 +38,13 @@ class Puzzle{
     return null;
   }
 
-  void trySnap(Piece p, float snapThreshold) {
+  public void trySnap(Piece p, float snapThreshold) {
     if (p.isCloseToCorrect(snapThreshold)) {
       p.snapToCorrect();
     }
   }
 
-  boolean isComplete() {
+  public boolean isComplete() {
     for (Piece p : pieces) {
       if (!p.isInCorrectPlace()) return false;
     }

@@ -51,7 +51,7 @@ class Simon {
     startTime=millis()+1000;
   }
 
-  void draw() {
+  public void draw() {
   background(200);
 
   for (int i = 0; i < 4; i++) {
@@ -98,7 +98,7 @@ class Simon {
 }
 
 
-  void select(PVector clicked) {
+  public void select(PVector clicked) {
     if (flashing || completed || showGradeScreen){
       return;
     }
@@ -117,7 +117,7 @@ class Simon {
     }
   }
 
-  void checkAnswer() {
+  public void checkAnswer() {
     int index = answers.size() - 1;
     if(answers.size()==order.size()){
       completed=true;
@@ -130,7 +130,7 @@ class Simon {
     }
   }
 
-  void showGrade() {
+  public void showGrade() {
     pushMatrix();
     translate(width / 2, height / 2);
     rectMode(CENTER); 
@@ -163,11 +163,11 @@ class Simon {
     popMatrix();
   }
 
-  boolean isCompleted() {
+  public boolean isCompleted() {
     return completed;
   }
   
-  void reset(){
+  public void reset(){
     //order = new ArrayList<Integer>();
     answers = new ArrayList<Integer>();
     /*
@@ -187,7 +187,7 @@ class Simon {
     gradeDisplayDuration = 2000;
   }
   
-  Grade getGrade(){
+  public Grade getGrade(){
     return grade;
   }
 }
