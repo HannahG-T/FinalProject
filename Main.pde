@@ -329,10 +329,11 @@ if(inGame && levels[level].equals("snake") && snake.isCompleted()&& mouseX>width
     spoke=false;
     c=0;
   }
-  
+  /*
   int a =x- mouseX;
   int b =y-mouseY;
   print("[" + "x-" + a + "," + "y-" + b + "]");
+  */
 }
 
 
