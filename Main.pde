@@ -24,10 +24,6 @@ Snake snake;
 
 Memory memory;
 
-PVector pos;
-PVector dir;
-int d=10;
-
 void setup() {
   size(1000, 600);
   background(200);
